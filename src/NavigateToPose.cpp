@@ -162,11 +162,11 @@ void navi2_points_control::navigateToPose()
               client_goal.pose.pose.position.x,
               client_goal.pose.pose.position.y);
   auto send_goal_options = rclcpp_action::Client<ClientT>::
-      SendGoalOptions(); // jc:返回结构体SendGoalOptions，包含3个函数指针
+      SendGoalOptions(); // jc:返回结构体SendGoalOptions，包含3个函数指针，主要是注册回调函数
   send_goal_options.result_callback = std::bind(
       &navi2_points_control::resultCallback, this, std::placeholders::_1);
   send_goal_options
-      .goal_response_callback = // jc:相当于激活之后执行的回调函数
+      .goal_response_callback = // jc:主要是注册回调函数
       std::bind(&navi2_points_control::goalResponseCallback, this,
                 std::placeholders::_1);
   future_goal_handle_ = nav_to_pose_client_->async_send_goal(
